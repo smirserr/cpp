@@ -21,9 +21,10 @@ int Kc_gen(int a, int m){
 	int x = m;
 	int y = a;
 	int q,
-		p1 = 0,
-	    p2 = 1,
-		r  = 1;
+	p1 = 0,
+	p2 = 1,
+	r  = 1;
+	
 	int n;
 	for(n = 0; x % y != 0; n++){
 		q = x / y;
@@ -82,7 +83,7 @@ int main(){
 	int  C,
 		 M;
 	
-	int Ko,Kc,N = 0;
+	int Ko = 0, Kc = 0, N = 0;
 	while (menu != 0){
 		if(menu == 1) {
 			key_gen(Ko, N, Kc);	
@@ -91,7 +92,7 @@ int main(){
 			cout << "Kc = " << Kc << endl;
 		}
 		if(menu == 2){
-			if(N == 0){
+			if(Ko == 0){
 				cout << "Введите  ключи Ko и N: ";
 				cin >> Ko >> N;
 			}
@@ -107,7 +108,7 @@ int main(){
 			cout << endl;
 		}
 		if(menu == 3) {
-			if (N == 0){
+			if (Kc == 0){
 				cout << "Введите  ключи Kс и N: ";
 				cin >> Kc >> N;
 			}
