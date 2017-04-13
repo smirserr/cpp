@@ -17,7 +17,7 @@ int nod(int a, int b){
 }
 
 
-int Kc_gen(int a, int b, int m){
+int Kc_gen(int a, int m){
 	int x = m;
 	int y = a;
 	int q,
@@ -37,7 +37,7 @@ int Kc_gen(int a, int b, int m){
 		p1 = temp;
 	}
 	
-	int Kc = b * p2;
+	int Kc = p2;
 	if (n % 2 == 1) Kc = -Kc;
 	while ( Kc <= 0) Kc += m;
 	return Kc;
@@ -58,7 +58,7 @@ void key_gen(int& Ko, int& N, int& Kc){
 		Ko = 2 + rand() % (m-1);
 		while(nod(Ko, m ) != 1) Ko = 2 + rand() % (m-1);
 	}
-	Kc = Kc_gen(Ko,1,m);
+	Kc = Kc_gen(Ko,m);
 
 }
 
