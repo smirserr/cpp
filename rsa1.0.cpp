@@ -46,12 +46,12 @@ int Kc_gen(int a, int b, int m){
 
 void key_gen(int& Ko, int& N, int& Kc){
 	int  P, Q, m;
-	cout << "¬ведите P и Q: ";
+	cout << "Введите P и Q: ";
 	cin >> P >> Q;
 	N = P*Q;
 	m = (P-1)*(Q-1);
 	
-	cout << "Ведите открытый ключ (0 - сгенерировать): ";
+	cout << "Введите открытый ключ (0 - сгенерировать): ";
 	cin >> Ko;
 	if (Ko == 0){
 		srand(time(0));
@@ -92,10 +92,10 @@ int main(){
 		}
 		if(menu == 2){
 			if(N == 0){
-				cout << "Ведите  ключи Ko и N: ";
+				cout << "Введите  ключи Ko и N: ";
 				cin >> Ko >> N;
 			}
-			cout << "Ведите сообщение: ";
+			cout << "Введите сообщение: ";
 			cin >> s;
 			for(int i = 0; i <= s.length(); i++){
 				M = (int)s[i];
@@ -108,10 +108,10 @@ int main(){
 		}
 		if(menu == 3) {
 			if (N == 0){
-				cout << "Ведите  ключи Kс и N: ";
+				cout << "Введите  ключи Kс и N: ";
 				cin >> Kc >> N;
 			}
-			cout << "Ведите шифрограмму: " << endl;
+			cout << "Введите шифрограмму: " << endl;
 			for(int i = 0;;i++){
 				cin >> C ;
 				M = C;
@@ -126,5 +126,3 @@ int main(){
 	}
 	
 }
-
-
