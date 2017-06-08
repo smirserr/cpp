@@ -292,7 +292,13 @@ int main(){
  	
  	
  	// ВЫВОД РЕЗУЛЬТАТОВ
- 	for(int i = 0; i < n-2; i++){
+ 	
+	if(! optima((double *)table, n, m, task_type)){
+		cout << "Пространство решений неограничено. Решений нет! " << endl;
+		return 0;
+	}
+	
+	for(int i = 0; i < n-2; i++){
 		for(int j = 0; j < fake_var; j++){
 			if((basis[i]+1 == fake[j]) && (table[i][0] != 0)){
 				cout << "В оптимальном решении присутствуют искусственные переменные, нет допустимого решения! " << endl;
@@ -302,10 +308,6 @@ int main(){
 		}
 	}
 	
-	if(! optima((double *)table, n, m, task_type)){
-		cout << "Пространство решений неограничено. Решений нет! " << endl;
-		return 0;
-	}
 	
  	cout << "++++++++++++++++++++++++++++++++++++++++++++++++" << endl;
 	for(int i = 0; i < n-2; i++){
