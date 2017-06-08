@@ -14,10 +14,11 @@ double round(double value, double n){
 
 // Печать матрицы
 void print(double *a, int n, int m){
+	cout << n << " " << m << endl;
 	cout << "==================================================================" << endl;
 	for(int i = 0; i < n; i++){
 		for (int j = 0; j < m; j++)
-			cout << setw(8)<< round(*(a + i*m + j), 100) << "";	
+			cout << setw(8)<< round(*(a + i*m + j), 100) << " ";	
 		cout << endl;
 	}
 	cout << "==================================================================";
@@ -121,14 +122,23 @@ int main(){
 ////////////////////////ЗАПОЛНКЕНИЕ ТАБДИЦЫ/////////////////////////////////////////////////////////
 
 	int add_var = 0; // кол-во дополнительных переменных
+	int fake_var = 0; // кол-во исскуственных переменных
 	for (int i = 1; i < tn; i++){
-		if (task[i][tm-2] == 1) add_var+=2;
-		else add_var++;
+		if (task[i][tm-2] == 1){
+			add_var+=2;
+			fake_var ++;
+		}
+		if(task[i][tm-2] == 0){
+			add_var++;
+			fake_var ++;
+		}
+		if(task[i][tm-2] == -1)  add_var++;
 	}
 	
 	int n = num_lim + 2,  // кол-во строк симпликс таблицы
 		m = tm + add_var -1;  // кол-во столбцов симпликс таблицы
 	double table[n][m]; // симпликс таблица
+	
 	
 	for (int i = 0; i < n; i++)  // заполнение нулями
 		for(int j = 0; j < m; j++) table[i][j] = 0;
@@ -151,22 +161,27 @@ int main(){
 	// Задание коэффициентов при x
 	for(int i = 0; i < num_var; i++) C[i] = task[0][i];
 	
+	
+	int fake[fake_var];  // номера искусственных переменных
+	int k = 0;
 	// Генерация  первого плана и задание коэффициентов при MX
 	for(int i = 1, j = tm-1; i < n-1; i++){
 		if(task[i][tm-2] == 1){
 			table[i-1][j++] = -1;
+			fake[k++] = j;
 			table[i-1][j++] = 1;
 			M[j-2] = -1* task_type;
 		}
 		if (task[i][tm-2] == 0){
 			M[j-1] = -1 * task_type;
+			fake[k++] = j;
 			table[i-1][j++] = 1;
 		} 
 		if (task[i][tm-2] == -1) table[i-1][j++] = 1;
 	}
 	
 	
-
+	
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////	
  	
@@ -240,6 +255,8 @@ int main(){
 
 		}
 		
+		if(out_base == -1) break;
+		 
 		double r = table[out_base][in_base]; // опроный элемент
 		
 		/////////ВЫОД ОТЛАДОЧНОЙ ИНФОРМАЦИИ
@@ -275,11 +292,28 @@ int main(){
  	
  	
  	// ВЫВОД РЕЗУЛЬТАТОВ
- 	cout << "++++++++++++++++++++++++++++++++++++++++++++++++" << endl;
-	for(int i = 0; i < n-2; i++)	
-			if(basis[i] < num_var) {
-				cout << "X" << basis[i]+1 << " " << table[i][0] << endl; 
+ 	for(int i = 0; i < n-2; i++){
+		for(int j = 0; j < fake_var; j++){
+			if((basis[i]+1 == fake[j]) && (table[i][0] != 0)){
+				cout << "В оптимальном решении присутствуют искусственные переменные, нет допустимого решения! " << endl;
+				cout << "X" << basis[i] + 1 << " = " << table[i][0] << endl;
+				return 0; // конец программы 
 			}
+		}
+	}
+	
+	if(! optima((double *)table, n, m, task_type)){
+		cout << "Пространство решений неограничено. Решений нет! " << endl;
+		return 0;
+	}
+	
+ 	cout << "++++++++++++++++++++++++++++++++++++++++++++++++" << endl;
+	for(int i = 0; i < n-2; i++){
+	
+			if(basis[i] >= num_var) cout << " ! "; 
+			
+			cout << "X" << basis[i]+1 << " " << round(table[i][0],1) << endl; 
+	}
 	cout << "++++++++++++++++++++++++++++++++++++++++++++++++";
 
 	
